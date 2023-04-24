@@ -1,0 +1,70 @@
+q1
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Bookstore>
+  <Yoga>
+    <Book>
+      <Book_Title>Yoga Anatomy</Book_Title>
+      <Book_Author>Leslie Kaminoff</Book_Author>
+      <Book_Price>19.99</Book_Price>
+    </Book>
+    <Book>
+      <Book_Title>The Heart of Yoga</Book_Title>
+      <Book_Author>T. K. V. Desikachar</Book_Author>
+      <Book_Price>15.99</Book_Price>
+    </Book>
+  </Yoga>
+  <Story>
+    <Book>
+      <Book_Title>The Alchemist</Book_Title>
+      <Book_Author>Paulo Coelho</Book_Author>
+      <Book_Price>12.99</Book_Price>
+    </Book>
+    <Book>
+      <Book_Title>The Great Gatsby</Book_Title>
+      <Book_Author>F. Scott Fitzgerald</Book_Author>
+      <Book_Price>8.99</Book_Price>
+    </Book>
+  </Story>
+  <Technical>
+    <Book>
+      <Book_Title>Python for Data Science Handbook</Book_Title>
+      <Book_Author>Jake VanderPlas</Book_Author>
+      <Book_Price>25.99</Book_Price>
+    </Book>
+    <Book>
+      <Book_Title>Introduction to Algorithms</Book_Title>
+      <Book_Author>Thomas H. Cormen</Book_Author>
+      <Book_Price>29.99</Book_Price>
+    </Book>
+  </Technical>
+</Bookstore>
+
+
+Q2
+
+# Importing the required libraries
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+
+# Defining the transactions dataset
+transactions = [['eggs', 'milk','bread'], 
+                ['eggs', 'apple'], 
+                ['milk', 'bread'], 
+                ['apple', 'milk'], 
+                ['milk', 'apple', 'bread']]
+
+# Converting categorical values into numeric format
+te = TransactionEncoder()
+te_ary = te.fit(transactions).transform(transactions)
+df = pd.DataFrame(te_ary, columns=te.columns_)
+
+# Applying the Apriori algorithm with a minimum support of 0.3
+frequent_itemsets = apriori(df, min_support=0.3, use_colnames=True)
+
+# Generating association rules with a minimum confidence of 0.8
+rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.8)
+
+# Displaying the frequent itemsets and association rules
+print("Frequent Itemsets:\n", frequent_itemsets)
+print("Association Rules:\n", rules)

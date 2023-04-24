@@ -1,0 +1,70 @@
+
+
+
+Q1
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ajax Program to Fetch Suggestions</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#search").on("keyup", function(){
+				var searchText = $(this).val();
+				if(searchText !== ''){
+					$.ajax({
+						url: 'suggestions.php',
+						method: 'post',
+						data: {query: searchText},
+						success: function(response){
+							$("#suggestions").html(response);
+						}
+					});
+				}
+				else{
+					$("#suggestions").html('');
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Ajax Program to Fetch Suggestions</h1>
+	<label>Search: </label>
+	<input type="text" id="search" placeholder="Type here...">
+	<div id="suggestions"></div>
+</body>
+</html>
+
+
+
+Q2
+
+import pandas as pd
+
+# Creating the dataset
+data = {'company': ['tata', 'mg', 'kia', 'hundai'],
+        'model': ['nexon', 'estro', 'seltos', 'creata'],
+        'year': [2017, 2021, 2019, 2015]}
+
+df = pd.DataFrame(data)
+
+# Converting categorical values into numeric format
+df['company'] = pd.Categorical(df['company'])
+df['company'] = df['company'].cat.codes
+
+df['model'] = pd.Categorical(df['model'])
+df['model'] = df['model'].cat.codes
+
+print(df)
+from apyori import apriori
+
+# Generating frequent itemsets with a minimum support of 0.5
+frequent_itemsets = list(apriori(df.values.tolist(), min_support=0.5))
+
+# Generating association rules with a minimum confidence of 0.7
+association_rules = list(apriori(df.values.tolist(), min_support=0.5, min_confidence=0.7))
+
+print(frequent_itemsets)
+print(association_rules)
+

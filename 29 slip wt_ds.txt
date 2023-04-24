@@ -1,0 +1,81 @@
+q1
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Number Operations</title>
+</head>
+<body>
+	<?php
+		$num = "";
+		$fibonacci = "";
+		$sum = "";
+
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			$num = test_input($_POST["num"]);
+
+			// Fibonacci series
+			$a = 0;
+			$b = 1;
+			$fibonacci = "$a, $b";
+			for ($i = 2; $i < $num; $i++) {
+				$c = $a + $b;
+				$fibonacci .= ", $c";
+				$a = $b;
+				$b = $c;
+			}
+
+			// Sum of digits
+			$sum = array_sum(str_split($num));
+		}
+
+		function test_input($data) {
+			$data = trim($data);
+			$data = stripslashes($data);
+			$data = htmlspecialchars($data);
+			return $data;
+		}
+	?>
+
+	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+		<label for="num">Enter a number:</label>
+		<input type="number" id="num" name="num" value="<?php echo $num;?>">
+		<input type="submit" name="submit" value="Submit">
+	</form>
+
+	<?php
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			echo "<h2>Fibonacci series for $num:</h2>";
+			echo $fibonacci;
+
+			echo "<h2>Sum of digits of $num:</h2>";
+			echo $sum;
+		}
+	?>
+</body>
+</html>
+
+
+q2
+
+
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Load the dataset into a pandas DataFrame
+df = pd.read_csv('student_scores.csv')
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df[['Hours_Studied']], df['Pass'], test_size=0.2, random_state=0)
+
+# Build the logistic regression model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Test the model on the testing set
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Accuracy of the logistic regression model: {accuracy:.2f}")
